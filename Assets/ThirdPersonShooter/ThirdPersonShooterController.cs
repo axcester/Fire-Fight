@@ -45,6 +45,10 @@ public class ThirdPersonShooterController : MonoBehaviour
             aimVirtualCamera.gameObject.SetActive(true);
             SetAimingMode();
         }
+        else if (Time.time - mostRecentShot < 0.2f)
+        {
+            SetAimingMode();
+        }
         else if ((Time.time - mostRecentShot) > 0.2f)
         {
             SetIdleMode();
@@ -57,8 +61,7 @@ public class ThirdPersonShooterController : MonoBehaviour
 
             if (!starterAssetsInputs.aim)
             {
-                SetAimingMode(true);
-                StartCoroutine(Shoot(0.1f));
+                StartCoroutine(Shoot(Time.deltaTime * 10f));
             }
             else
             {
