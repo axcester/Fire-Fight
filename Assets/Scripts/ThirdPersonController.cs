@@ -36,6 +36,14 @@ namespace StarterAssets
         [Tooltip("The height the player can jump")]
         public float JumpHeight = 1.2f;
 
+        [Space(10)]
+        [Tooltip("The number of double jumps a player can do")]
+        public int MaxDoubleJumps = 2;
+
+        [Space(10)]
+        [Tooltip("The number of double jumps a player has left" )]
+        public int JumpsLeft = 0;
+
         [Tooltip("The character uses its own gravity value. The engine default is -9.81f")]
         public float Gravity = -15.0f;
 
@@ -161,6 +169,10 @@ namespace StarterAssets
             JumpAndGravity();
             GroundedCheck();
             Move();
+            if (Grounded)
+            {
+                JumpsLeft = MaxDoubleJumps;
+            }
         }
 
         private void LateUpdate()
@@ -286,27 +298,35 @@ namespace StarterAssets
 
         private void JumpAndGravity()
         {
+
             if (Grounded)
             {
-                // reset the fall timeout timer
-                _fallTimeoutDelta = FallTimeout;
-
-                // update animator if using character
-                if (_hasAnimator)
-                {
-                    _animator.SetBool(_animIDJump, false);
-                    _animator.SetBool(_animIDFreeFall, false);
-                }
-
                 // stop our velocity dropping infinitely when grounded
                 if (_verticalVelocity < 0.0f)
                 {
                     _verticalVelocity = -2f;
                 }
 
+                if (_hasAnimator)
+                {
+                    _animator.SetBool(_animIDJump, false);
+                    _animator.SetBool(_animIDFreeFall, false);
+                }
+            }
+
+            if (JumpsLeft > 0)
+            {
+
+                // reset the fall timeout timer
+                _fallTimeoutDelta = FallTimeout;
+                
+                // update animator if using character
+
+
                 // Jump
                 if (_input.jump && _jumpTimeoutDelta <= 0.0f)
                 {
+                    JumpsLeft -= 1;
                     // the square root of H * -2 * G = how much velocity needed to reach desired height
                     _verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * Gravity);
 
@@ -315,6 +335,9 @@ namespace StarterAssets
                     {
                         _animator.SetBool(_animIDJump, true);
                     }
+
+                    _input.jump = false;
+
                 }
 
                 // jump timeout
@@ -344,6 +367,7 @@ namespace StarterAssets
 
                 // if we are not grounded, do not jump
                 _input.jump = false;
+
             }
 
             // apply gravity over time if under terminal (multiply by delta time twice to linearly speed up over time)
