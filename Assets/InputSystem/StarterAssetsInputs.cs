@@ -14,6 +14,7 @@ namespace StarterAssets
 		public bool sprint;
 		public bool aim;
 		public bool shoot;
+		public bool doubleJump;
 
 		[Header("Movement Settings")]
 		public bool analogMovement;
@@ -71,6 +72,7 @@ namespace StarterAssets
 		public void JumpInput(bool newJumpState)
 		{
 			jump = newJumpState;
+			doubleJump = !newJumpState;
 		}
 
 		public void SprintInput(bool newSprintState)
