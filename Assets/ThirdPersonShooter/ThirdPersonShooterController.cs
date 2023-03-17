@@ -88,12 +88,12 @@ public class ThirdPersonShooterController : MonoBehaviour
         Vector3 aimDirection = (worldAimTarget - transform.position).normalized;
         if (instant)
         {
-            animator.SetLayerWeight(1, 1f);
+            animator.SetLayerWeight(2, 1f);
             transform.forward = aimDirection;
         }
         else
         {
-            animator.SetLayerWeight(1, Mathf.Lerp(animator.GetLayerWeight(1), 1f, Time.deltaTime * 10f));
+            animator.SetLayerWeight(2, Mathf.Lerp(animator.GetLayerWeight(2), 1f, Time.deltaTime * 10f));
             transform.forward = Vector3.Lerp(transform.forward, aimDirection, Time.deltaTime * 20f);
         }
 
@@ -110,7 +110,7 @@ public class ThirdPersonShooterController : MonoBehaviour
     {
         aimVirtualCamera.gameObject.SetActive(false);
         thirdPersonController.SetRotationOnMove(true);
-        //animator.SetLayerWeight(1, Mathf.Lerp(animator.GetLayerWeight(1), 0f, Time.deltaTime * 10f));
+        animator.SetLayerWeight(2, Mathf.Lerp(animator.GetLayerWeight(2), 0f, Time.deltaTime * 10f));
 
         foreach (GameObject aimConstraint in aimConstraints)
         {
