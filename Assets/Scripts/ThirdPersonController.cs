@@ -105,6 +105,8 @@ namespace StarterAssets
         private int _animIDJump;
         private int _animIDFreeFall;
         private int _animIDMotionSpeed;
+        private int _animIDVelocityX;
+        private int _animIDVelocityZ;
 
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
         private PlayerInput _playerInput;
@@ -187,6 +189,8 @@ namespace StarterAssets
             _animIDJump = Animator.StringToHash("Jump");
             _animIDFreeFall = Animator.StringToHash("FreeFall");
             _animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
+            _animIDVelocityX = Animator.StringToHash("Velocity X");
+            _animIDVelocityZ = Animator.StringToHash("Velocity Z");
         }
 
         private void GroundedCheck()
@@ -293,6 +297,8 @@ namespace StarterAssets
             {
                 _animator.SetFloat(_animIDSpeed, _animationBlend);
                 _animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
+                _animator.SetFloat(_animIDVelocityX, _input.move.x * _speed);
+                _animator.SetFloat(_animIDVelocityZ, _input.move.y * _speed);
             }
         }
 
