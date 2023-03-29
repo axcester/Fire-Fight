@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Packages/Modular Water Pistol/Demo.unity.meta
 guid: 884117846322c5c43b30cc31a048fbca
+========
+guid: 3ece57a156843324684a618fac8569b2
+>>>>>>>> c469892be43ced64ac9115fc4cc56545f096e4d4:Assets/Flame Cute Series/Scenes/Demo.unity.meta
 DefaultImporter:
   externalObjects: {}
   userData: 
