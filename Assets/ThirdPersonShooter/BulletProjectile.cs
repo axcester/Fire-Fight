@@ -5,6 +5,7 @@ using UnityEngine;
 public class BulletProjectile : MonoBehaviour
 {
     private Rigidbody bulletRigidbody;
+    [SerializeField] private Transform pfSplash;
 
     private void Awake()
     {
@@ -21,6 +22,9 @@ public class BulletProjectile : MonoBehaviour
     {
         if (!other.CompareTag("Gun") && !other.CompareTag("Player") && !other.CompareTag("Bullet"))
         {
+            Vector3 point = other.gameObject.GetComponent<Collider>().ClosestPointOnBounds(transform.position);
+            Transform pfSplashClone = Instantiate(pfSplash, point, Quaternion.LookRotation(transform.position - point, Vector3.up));
+            Destroy(pfSplashClone.gameObject, 2f);
             Destroy(gameObject);
         }
     }

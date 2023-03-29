@@ -76,6 +76,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37b926b1084c88545896271d3a5f8d4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pfSplash: {fileID: 7651450137252863645, guid: d39358a7e2993214eb533d405d2e7280,
+    type: 3}
 --- !u!1 &5710350859981937040
 GameObject:
   m_ObjectHideFlags: 0
