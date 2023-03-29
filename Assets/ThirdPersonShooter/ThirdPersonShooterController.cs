@@ -7,6 +7,7 @@ using UnityEngine.Animations.Rigging;
 
 public class ThirdPersonShooterController : MonoBehaviour
 {
+    [SerializeField] private Camera mainCamera;
     [SerializeField] private CinemachineVirtualCamera aimVirtualCamera;
     [SerializeField] private LayerMask aimColliderLayerMask = new LayerMask();
     [SerializeField] private Transform debugTransform;
@@ -16,6 +17,7 @@ public class ThirdPersonShooterController : MonoBehaviour
     [SerializeField] private Transform pfMuzzleFlash;
     [SerializeField] private List<GameObject> aimConstraints = new List<GameObject>();
     [SerializeField] private GameObject headConstraint;
+    [SerializeField] private List<float> aimConstraintsWeights = new List<float>();
 
     private ThirdPersonController thirdPersonController;
     private StarterAssetsInputs starterAssetsInputs;
@@ -39,6 +41,11 @@ public class ThirdPersonShooterController : MonoBehaviour
         {
             debugTransform.position = raycastHit.point;
             mouseWorldPosition = raycastHit.point;
+        }
+        else
+        {
+            debugTransform.position = mainCamera.transform.position + mainCamera.transform.forward * 200f;
+            mouseWorldPosition = mainCamera.transform.position + mainCamera.transform.forward * 200f;
         }
 
         if (starterAssetsInputs.aim)
@@ -82,33 +89,38 @@ public class ThirdPersonShooterController : MonoBehaviour
         Vector3 aimDirection = (worldAimTarget - transform.position).normalized;
         if (instant)
         {
-            animator.SetLayerWeight(1, 1f);
+            animator.SetLayerWeight(2, 1f);
+            animator.SetLayerWeight(3, 1f);
             transform.forward = aimDirection;
         }
         else
         {
-            animator.SetLayerWeight(1, Mathf.Lerp(animator.GetLayerWeight(1), 1f, Time.deltaTime * 10f));
+            animator.SetLayerWeight(2, Mathf.Lerp(animator.GetLayerWeight(2), 1f, Time.deltaTime * 10f));
+            animator.SetLayerWeight(3, Mathf.Lerp(animator.GetLayerWeight(3), 1f, Time.deltaTime * 10f));
             transform.forward = Vector3.Lerp(transform.forward, aimDirection, Time.deltaTime * 20f);
         }
 
+        int indexCounter = 0;
         foreach (GameObject aimConstraint in aimConstraints)
         {
-            aimConstraint.GetComponent<MultiAimConstraint>().weight = 1f;
+            aimConstraint.GetComponent<MultiAimConstraint>().weight = Mathf.Lerp(aimConstraint.GetComponent<MultiAimConstraint>().weight, aimConstraintsWeights[indexCounter], Time.deltaTime * 10f);
+            indexCounter += 1;
         }
-        headConstraint.GetComponent<MultiAimConstraint>().weight = 0f;
+        //headConstraint.GetComponent<MultiAimConstraint>().weight = 0f;
     }
 
     private void SetIdleMode()
     {
         aimVirtualCamera.gameObject.SetActive(false);
         thirdPersonController.SetRotationOnMove(true);
-        animator.SetLayerWeight(1, Mathf.Lerp(animator.GetLayerWeight(1), 0f, Time.deltaTime * 10f));
+        animator.SetLayerWeight(2, Mathf.Lerp(animator.GetLayerWeight(2), 0f, Time.deltaTime * 10f));
+        animator.SetLayerWeight(3, Mathf.Lerp(animator.GetLayerWeight(3), 0f, Time.deltaTime * 10f));
 
         foreach (GameObject aimConstraint in aimConstraints)
         {
-            aimConstraint.GetComponent<MultiAimConstraint>().weight = 0f;
+            aimConstraint.GetComponent<MultiAimConstraint>().weight = Mathf.Lerp(aimConstraint.GetComponent<MultiAimConstraint>().weight, 0f, Time.deltaTime * 10f);
         }
-        headConstraint.GetComponent<MultiAimConstraint>().weight = 1f;
+        //headConstraint.GetComponent<MultiAimConstraint>().weight = 1f;
     }
 
     IEnumerator Shoot(float secs)
