@@ -12,6 +12,7 @@ public class ThirdPersonShooterController : MonoBehaviour
     [SerializeField] private LayerMask aimColliderLayerMask = new LayerMask();
     [SerializeField] private Transform debugTransform;
     [SerializeField] private Transform pfBulletProjectile;
+    [SerializeField] private Transform pfSplash;
     [SerializeField] private Transform spawnBulletPosition;
     [SerializeField] private Transform pfMuzzleFlash;
     [SerializeField] private List<GameObject> aimConstraints = new List<GameObject>();
@@ -62,7 +63,7 @@ public class ThirdPersonShooterController : MonoBehaviour
         }
 
 
-        if (starterAssetsInputs.shoot)
+        if (starterAssetsInputs.shoot && (Time.time - mostRecentShot) > 0.2f)
         {
             mostRecentShot = Time.time;
 
@@ -126,15 +127,13 @@ public class ThirdPersonShooterController : MonoBehaviour
     {
         yield return new WaitForSeconds(secs);
         Vector3 aimDir = (mouseWorldPosition - spawnBulletPosition.position).normalized;
-        Instantiate(pfBulletProjectile, spawnBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
-        StartCoroutine(MuzzleFlash());
-    }
-
-    IEnumerator MuzzleFlash()
-    {
-        Transform pfMuzzleFlashClone = Instantiate(pfMuzzleFlash, spawnBulletPosition.position, Quaternion.identity);
+        if(Physics.Raycast(spawnBulletPosition.position, aimDir, out RaycastHit hit, 999f))
+        {
+            Transform pfSplashClone = Instantiate(pfSplash, hit.point, Quaternion.LookRotation(hit.normal, Vector3.up));
+            Destroy(pfSplashClone.gameObject, 2f);
+        }
+        //Instantiate(pfBulletProjectile, spawnBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
+        Transform pfMuzzleFlashClone = Instantiate(pfMuzzleFlash, spawnBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
         Destroy(pfMuzzleFlashClone.gameObject, 2f);
-        yield return new WaitForSeconds(0.1f);
-        pfMuzzleFlashClone.gameObject.GetComponent<Light>().enabled = false;
     }
 }
