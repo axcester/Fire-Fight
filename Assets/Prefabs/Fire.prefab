@@ -91,7 +91,8 @@ MonoBehaviour:
   attack_range: 1.8
   ranged_attack_range: 10
   min_ranged_attack_range: 5
-  fireball: {fileID: 0}
+  fireball: {fileID: 2856562956424338726, guid: 1497369e6b165f349a4a325b01409fb5,
+    type: 3}
   minShootWaitTime: 2
   maxShootWaitTime: 5
   health: 3
