@@ -20,6 +20,7 @@ public class EnemyController : MonoBehaviour
     private Transform playerTransform;
     private Animator anim;
     private NavMeshAgent navAgent;
+    private Collider collider;
     //private HealthController healthController;
     private EnemyState state = EnemyState.Idle;
     private bool chase = true;
@@ -51,6 +52,7 @@ public class EnemyController : MonoBehaviour
     {
         anim = GetComponent<Animator>();
         navAgent = GetComponent<NavMeshAgent>();
+        collider = GetComponent<Collider>();
     }
 
     void Start()
@@ -108,6 +110,7 @@ public class EnemyController : MonoBehaviour
                 navAgent.updatePosition = false;
                 Destroy(gameObject, 30f);
                 state = EnemyState.Dead;
+                collider.enabled = false;
                 break;
         }
 
@@ -129,6 +132,13 @@ public class EnemyController : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.transform.IsChildOf(transform)) return;
+
+        Damage();
+        Destroy(other.gameObject);
+    }
+
+    public void Damage()
+    {
         health--;
         if (health < 1)
         {
@@ -138,6 +148,5 @@ public class EnemyController : MonoBehaviour
         {
             anim.SetTrigger("Damage");
         }
-        Destroy(other.gameObject);
     }
 }
