@@ -8,16 +8,19 @@ public enum EnemyState
     Idle,
     Agro,
     Die,
+    Dead
 };
 
 [RequireComponent(typeof(NavMeshAgent))]
 [RequireComponent(typeof(Animator))]
+//[RequireComponent(typeof(HealthController))]
 public class EnemyController : MonoBehaviour
 {
     private Vector3 spawnPoint, destination;
     private Transform playerTransform;
     private Animator anim;
     private NavMeshAgent navAgent;
+    //private HealthController healthController;
     private EnemyState state = EnemyState.Idle;
     private bool chase = true;
 
@@ -38,6 +41,9 @@ public class EnemyController : MonoBehaviour
 
     [SerializeField]
     private float minShootWaitTime = 2f, maxShootWaitTime = 5f;
+
+    [SerializeField]
+    private int health = 2;
 
     private float waitTime;
 
@@ -92,13 +98,16 @@ public class EnemyController : MonoBehaviour
                 if (distToPlayer < ranged_attack_range && distToPlayer > min_ranged_attack_range && facingPlayer && Time.time > waitTime)
                 {
                     waitTime = Time.time + Random.Range(minShootWaitTime, maxShootWaitTime);
-                    anim.SetTrigger("Range Attack");
-                    Instantiate(fireball, bulletSpawnPos.position, Quaternion.identity);
+                    anim.SetTrigger("Ranged Attack");
+                    Destroy(Instantiate(fireball, bulletSpawnPos.position, bulletSpawnPos.rotation, transform), 10f);
                 }
                 
                 break;
             case EnemyState.Die:
                 anim.SetTrigger("Death");
+                navAgent.updatePosition = false;
+                Destroy(gameObject, 30f);
+                state = EnemyState.Dead;
                 break;
         }
 
@@ -115,5 +124,20 @@ public class EnemyController : MonoBehaviour
             yield return null;
 
         navAgent.isStopped = false;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.transform.IsChildOf(transform)) return;
+        health--;
+        if (health < 1)
+        {
+            state = EnemyState.Die;
+        }
+        else
+        {
+            anim.SetTrigger("Damage");
+        }
+        Destroy(other.gameObject);
     }
 }
