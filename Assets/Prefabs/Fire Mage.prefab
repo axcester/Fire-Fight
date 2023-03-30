@@ -1,5 +1,120 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1928868575
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1928868576}
+  - component: {fileID: 1928868578}
+  - component: {fileID: 1928868577}
+  m_Layer: 6
+  m_Name: Point Light
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1928868576
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1928868575}
+  m_LocalRotation: {x: -0.5609313, y: 0.43053004, z: 0.56093127, w: 0.43052995}
+  m_LocalPosition: {x: -1.14, y: -0.24, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 842059297738818942}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!108 &1928868578
+Light:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1928868575}
+  m_Enabled: 1
+  serializedVersion: 10
+  m_Type: 2
+  m_Shape: 0
+  m_Color: {r: 0.9622642, g: 0.65362024, b: 0.24964403, a: 1}
+  m_Intensity: 2.6
+  m_Range: 10
+  m_SpotAngle: 30
+  m_InnerSpotAngle: 21.80208
+  m_CookieSize: 10
+  m_Shadows:
+    m_Type: 0
+    m_Resolution: -1
+    m_CustomResolution: -1
+    m_Strength: 1
+    m_Bias: 0.05
+    m_NormalBias: 0.4
+    m_NearPlane: 0.2
+    m_CullingMatrixOverride:
+      e00: 1
+      e01: 0
+      e02: 0
+      e03: 0
+      e10: 0
+      e11: 1
+      e12: 0
+      e13: 0
+      e20: 0
+      e21: 0
+      e22: 1
+      e23: 0
+      e30: 0
+      e31: 0
+      e32: 0
+      e33: 1
+    m_UseCullingMatrixOverride: 0
+  m_Cookie: {fileID: 0}
+  m_DrawHalo: 0
+  m_Flare: {fileID: 0}
+  m_RenderMode: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingLayerMask: 1
+  m_Lightmapping: 4
+  m_LightShadowCasterMode: 0
+  m_AreaSize: {x: 1, y: 1}
+  m_BounceIntensity: 1
+  m_ColorTemperature: 6570
+  m_UseColorTemperature: 0
+  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_UseBoundingSphereOverride: 0
+  m_UseViewFrustumForShadowCasterCull: 1
+  m_ShadowRadius: 0
+  m_ShadowAngle: 0
+--- !u!114 &1928868577
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1928868575}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 1
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
 --- !u!1 &172234953912806820
 GameObject:
   m_ObjectHideFlags: 0
@@ -9,7 +124,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7713591282102878982}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: RigSpine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41,7 +156,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2633727022540434501}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: RigNeck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -74,7 +189,7 @@ GameObject:
   m_Component:
   - component: {fileID: 447674815791474306}
   - component: {fileID: 4462380595589358706}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Fire Mage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -176,7 +291,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1714473260035128492}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: RigRArm2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -208,7 +323,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4438739544227896446}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: RigLArm2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -240,7 +355,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4213989822333153461}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: RigRibcage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -278,7 +393,7 @@ GameObject:
   - component: {fileID: 4697789011276299689}
   - component: {fileID: 4697789011276299607}
   - component: {fileID: 4697789011276299688}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Fire Mage
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -350,16 +465,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5cb25ea60518084a9abcfb482b8dab6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletSpawnPos: {fileID: 3132108871970919990}
-  agro_distance: 12
-  chase_distance: 15
-  attack_range: 1.8
   ranged_attack_range: 15
   min_ranged_attack_range: 5
+  ranged_attack_ratio: 0.9
+  bulletSpawnPos: {fileID: 3132108871970919990}
   fireball: {fileID: 2856562956424338726, guid: 1497369e6b165f349a4a325b01409fb5,
     type: 3}
-  minShootWaitTime: 2
-  maxShootWaitTime: 5
+  agro_distance: 12
+  chase_distance: 20
+  attack_range: 1.8
+  minShootWaitTime: 0.5
+  maxShootWaitTime: 2
+  minAttackTimeout: 5
+  maxAttackTimeout: 8
   health: 2
 --- !u!195 &4697789011276299688
 NavMeshAgent:
@@ -392,7 +510,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4865419358804710535}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: RigLArm1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -424,7 +542,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8054606938961204067}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: RigHair3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -456,7 +574,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 842059297738818942}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: RigPelvis
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -478,6 +596,7 @@ Transform:
   - {fileID: 1659264952354456913}
   - {fileID: 7713591282102878982}
   - {fileID: 8288467685111132111}
+  - {fileID: 1928868576}
   m_Father: {fileID: 1506081922595313693}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -490,7 +609,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3132108871970919990}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Fireball spawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -521,7 +640,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7052728965078250439}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: RigHair4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -553,7 +672,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 60867889661567839}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: RigHair5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -584,7 +703,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8746596190016549258}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: RigMouth
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -615,7 +734,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1659264952354456913}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: RigSkirt1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -646,7 +765,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 773593789713179215}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: RigLArmPalm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -677,7 +796,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4060119399894419825}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: RigRArm1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -709,7 +828,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 231857049482952778}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: RigHair2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -741,7 +860,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4720065787238408793}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: RigHair1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -773,7 +892,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6982935819531952313}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: RigRArmPalm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -804,7 +923,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2920479444400024256}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: RigHead
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -839,7 +958,7 @@ GameObject:
   - component: {fileID: 8288467685111132111}
   - component: {fileID: 8288467685111132109}
   - component: {fileID: 8288467685111132110}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: FX Spark
   m_TagString: Untagged
   m_Icon: {fileID: 0}

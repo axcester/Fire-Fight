@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 820585016}
   - component: {fileID: 820585017}
   - component: {fileID: 820585015}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Fireball
   m_TagString: Bullet
   m_Icon: {fileID: 0}
@@ -105,7 +105,7 @@ GameObject:
   - component: {fileID: 2856562957259789877}
   - component: {fileID: 2856562957259789883}
   - component: {fileID: 2856562957259789882}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: FX Sparks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4918,6 +4918,21 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: -0.12
       objectReference: {fileID: 0}
+    - target: {fileID: 2169136229127665794, guid: 16cfe0f76e1afc24ca16a7080d66f082,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2428826327823032488, guid: 16cfe0f76e1afc24ca16a7080d66f082,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3791992649996317472, guid: 16cfe0f76e1afc24ca16a7080d66f082,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 6258474999001026325, guid: 16cfe0f76e1afc24ca16a7080d66f082,
         type: 3}
       propertyPath: m_LocalPosition.y
@@ -4982,6 +4997,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PT_Generic_Rock_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 8002461263218542219, guid: 16cfe0f76e1afc24ca16a7080d66f082,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 8578487217880391244, guid: 16cfe0f76e1afc24ca16a7080d66f082,
         type: 3}

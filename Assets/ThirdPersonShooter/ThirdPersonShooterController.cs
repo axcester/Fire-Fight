@@ -175,7 +175,7 @@ public class ThirdPersonShooterController : MonoBehaviour
             Destroy(pfSplashClone.gameObject, 2f);
         }
         //Instantiate(pfBulletProjectile, spawnBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
-        Transform pfMuzzleFlashClone = Instantiate(pfMuzzleFlash, spawnBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
+        Transform pfMuzzleFlashClone = Instantiate(pfMuzzleFlash, spawnBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up), transform);
         Destroy(pfMuzzleFlashClone.gameObject, 2f);
     }
 
@@ -183,5 +183,11 @@ public class ThirdPersonShooterController : MonoBehaviour
     {
         yield return new WaitForSeconds(2f);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        Health--;
+        Destroy(other.gameObject);
     }
 }
