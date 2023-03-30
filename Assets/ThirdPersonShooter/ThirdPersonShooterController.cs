@@ -129,6 +129,10 @@ public class ThirdPersonShooterController : MonoBehaviour
         Vector3 aimDir = (mouseWorldPosition - spawnBulletPosition.position).normalized;
         if(Physics.Raycast(spawnBulletPosition.position, aimDir, out RaycastHit hit, 999f))
         {
+            if (hit.collider.CompareTag("Enemy"))
+            {
+                hit.collider.GetComponent<EnemyController>().Damage();
+            }
             Transform pfSplashClone = Instantiate(pfSplash, hit.point, Quaternion.LookRotation(hit.normal, Vector3.up));
             Destroy(pfSplashClone.gameObject, 2f);
         }
