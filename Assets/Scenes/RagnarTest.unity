@@ -651,6 +651,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Flame
       objectReference: {fileID: 0}
+    - target: {fileID: 7438582929835224638, guid: a773b48e06f0bb744a836cc209836289,
+        type: 3}
+      propertyPath: agro_distance
+      value: 32
+      objectReference: {fileID: 0}
+    - target: {fileID: 7438582929835224638, guid: a773b48e06f0bb744a836cc209836289,
+        type: 3}
+      propertyPath: chase_distance
+      value: 35
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a773b48e06f0bb744a836cc209836289, type: 3}
 --- !u!4 &62740782 stripped
@@ -2950,6 +2960,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2461320677200671983, guid: 10949b36ba0cab544a2163974d176741,
+        type: 3}
+      propertyPath: agro_distance
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 2461320677200671983, guid: 10949b36ba0cab544a2163974d176741,
+        type: 3}
+      propertyPath: chase_distance
+      value: 30
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 10949b36ba0cab544a2163974d176741, type: 3}
 --- !u!1001 &327595259
@@ -3852,6 +3872,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Flame (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7438582929835224638, guid: a773b48e06f0bb744a836cc209836289,
+        type: 3}
+      propertyPath: agro_distance
+      value: 32
+      objectReference: {fileID: 0}
+    - target: {fileID: 7438582929835224638, guid: a773b48e06f0bb744a836cc209836289,
+        type: 3}
+      propertyPath: chase_distance
+      value: 35
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a773b48e06f0bb744a836cc209836289, type: 3}
@@ -4808,6 +4838,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2856562956424338726, guid: 1497369e6b165f349a4a325b01409fb5,
         type: 3}
+    - target: {fileID: 2461320677200671983, guid: 10949b36ba0cab544a2163974d176741,
+        type: 3}
+      propertyPath: agro_distance
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 2461320677200671983, guid: 10949b36ba0cab544a2163974d176741,
+        type: 3}
+      propertyPath: chase_distance
+      value: 30
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 10949b36ba0cab544a2163974d176741, type: 3}
 --- !u!4 &625822716 stripped
@@ -9178,6 +9218,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2856562956424338726, guid: 1497369e6b165f349a4a325b01409fb5,
         type: 3}
+    - target: {fileID: 2461320677200671983, guid: 10949b36ba0cab544a2163974d176741,
+        type: 3}
+      propertyPath: agro_distance
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 2461320677200671983, guid: 10949b36ba0cab544a2163974d176741,
+        type: 3}
+      propertyPath: chase_distance
+      value: 30
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 10949b36ba0cab544a2163974d176741, type: 3}
 --- !u!1001 &1089445263
@@ -11285,6 +11335,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Flame (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7438582929835224638, guid: a773b48e06f0bb744a836cc209836289,
+        type: 3}
+      propertyPath: agro_distance
+      value: 32
+      objectReference: {fileID: 0}
+    - target: {fileID: 7438582929835224638, guid: a773b48e06f0bb744a836cc209836289,
+        type: 3}
+      propertyPath: chase_distance
+      value: 35
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a773b48e06f0bb744a836cc209836289, type: 3}
@@ -16491,6 +16551,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2856562956424338726, guid: 1497369e6b165f349a4a325b01409fb5,
         type: 3}
+    - target: {fileID: 2461320677200671983, guid: 10949b36ba0cab544a2163974d176741,
+        type: 3}
+      propertyPath: agro_distance
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 2461320677200671983, guid: 10949b36ba0cab544a2163974d176741,
+        type: 3}
+      propertyPath: chase_distance
+      value: 30
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 10949b36ba0cab544a2163974d176741, type: 3}
 --- !u!1001 &2116008689
