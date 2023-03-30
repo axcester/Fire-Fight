@@ -5,6 +5,7 @@ using UnityEngine;
 public class ProjectileController : MonoBehaviour
 {
     private Rigidbody rigidbody;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -17,5 +18,13 @@ public class ProjectileController : MonoBehaviour
     void Update()
     {
         
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            other.gameObject.GetComponent<ThirdPersonShooterController>().Damage(1);
+        }
     }
 }

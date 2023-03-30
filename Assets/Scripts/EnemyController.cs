@@ -94,6 +94,7 @@ public class EnemyController : MonoBehaviour
                 if (distToPlayer < attack_range && facingPlayer)
                 {
                     anim.SetTrigger("Attack");
+                    playerTransform.gameObject.GetComponent<ThirdPersonShooterController>().Damage(2);
                     break;
                 }
 

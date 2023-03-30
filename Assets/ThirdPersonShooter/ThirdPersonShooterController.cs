@@ -4,6 +4,7 @@ using UnityEngine;
 using Cinemachine;
 using StarterAssets;
 using UnityEngine.Animations.Rigging;
+using UnityEngine.SceneManagement;
 
 public class ThirdPersonShooterController : MonoBehaviour
 {
@@ -19,64 +20,96 @@ public class ThirdPersonShooterController : MonoBehaviour
     [SerializeField] private GameObject headConstraint;
     [SerializeField] private List<float> aimConstraintsWeights = new List<float>();
 
+    [SerializeField] private int MaxHealth = 5;
+    [SerializeField] private int Health;
+
+    private CharacterController controller;
     private ThirdPersonController thirdPersonController;
     private StarterAssetsInputs starterAssetsInputs;
     private Animator animator;
     private Vector3 mouseWorldPosition = Vector3.zero;
     private float mostRecentShot;
+    private bool dead = false;
 
     private void Awake()
     {
         thirdPersonController = GetComponent<ThirdPersonController>();
         starterAssetsInputs = GetComponent<StarterAssetsInputs>();
         animator = GetComponent<Animator>();
+        Health = MaxHealth;
+        controller = GetComponent<CharacterController>();
+        animator.SetLayerWeight(4, 0f);
         SetIdleMode();
     }
 
     private void Update()
     {
-        Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
-        Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
-        if (Physics.Raycast(ray, out RaycastHit raycastHit, 999f, aimColliderLayerMask))
+        if (!dead)
         {
-            debugTransform.position = raycastHit.point;
-            mouseWorldPosition = raycastHit.point;
-        }
-        else
-        {
-            debugTransform.position = mainCamera.transform.position + mainCamera.transform.forward * 200f;
-            mouseWorldPosition = mainCamera.transform.position + mainCamera.transform.forward * 200f;
-        }
-
-        if (starterAssetsInputs.aim)
-        {
-            aimVirtualCamera.gameObject.SetActive(true);
-            SetAimingMode();
-        }
-        else if (Time.time - mostRecentShot < 0.2f)
-        {
-            SetAimingMode();
-        }
-        else if ((Time.time - mostRecentShot) > 0.2f)
-        {
-            SetIdleMode();
-        }
-
-
-        if (starterAssetsInputs.shoot && (Time.time - mostRecentShot) > 0.2f)
-        {
-            mostRecentShot = Time.time;
-
-            if (!starterAssetsInputs.aim)
+            Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
+            Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
+            if (Physics.Raycast(ray, out RaycastHit raycastHit, 999f, aimColliderLayerMask))
             {
-                StartCoroutine(Shoot(Time.deltaTime * 10f));
+                debugTransform.position = raycastHit.point;
+                mouseWorldPosition = raycastHit.point;
             }
             else
             {
-                StartCoroutine(Shoot(0));
+                debugTransform.position = mainCamera.transform.position + mainCamera.transform.forward * 200f;
+                mouseWorldPosition = mainCamera.transform.position + mainCamera.transform.forward * 200f;
             }
 
-            starterAssetsInputs.shoot = false;
+            if (starterAssetsInputs.aim)
+            {
+                aimVirtualCamera.gameObject.SetActive(true);
+                SetAimingMode();
+            }
+            else if (Time.time - mostRecentShot < 0.2f)
+            {
+                SetAimingMode();
+            }
+            else if ((Time.time - mostRecentShot) > 0.2f)
+            {
+                SetIdleMode();
+            }
+
+
+            if (starterAssetsInputs.shoot && (Time.time - mostRecentShot) > 0.2f)
+            {
+                mostRecentShot = Time.time;
+
+                if (!starterAssetsInputs.aim)
+                {
+                    StartCoroutine(Shoot(Time.deltaTime * 10f));
+                }
+                else
+                {
+                    StartCoroutine(Shoot(0));
+                }
+
+                starterAssetsInputs.shoot = false;
+            }
+        }
+        
+
+        if (Health <= 0)
+        {
+            animator.SetLayerWeight(4, Mathf.Lerp(animator.GetLayerWeight(4), 1f, Time.deltaTime * 2f));
+            controller.height = 1f;
+            headConstraint.GetComponent<MultiAimConstraint>().weight = 0f;
+            dead = true;
+            thirdPersonController.enabled = false;
+
+            StartCoroutine(Reload());
+        }
+
+        else
+        {
+            animator.SetLayerWeight(4, 0f);
+            controller.height = 1.8f;
+            headConstraint.GetComponent<MultiAimConstraint>().weight = 1f;
+            dead = false;
+            thirdPersonController.enabled = true;
         }
     }
 
@@ -123,6 +156,11 @@ public class ThirdPersonShooterController : MonoBehaviour
         //headConstraint.GetComponent<MultiAimConstraint>().weight = 1f;
     }
 
+    public void Damage(int d)
+    {
+        Health -= d;
+    }
+
     IEnumerator Shoot(float secs)
     {
         yield return new WaitForSeconds(secs);
@@ -139,5 +177,11 @@ public class ThirdPersonShooterController : MonoBehaviour
         //Instantiate(pfBulletProjectile, spawnBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
         Transform pfMuzzleFlashClone = Instantiate(pfMuzzleFlash, spawnBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
         Destroy(pfMuzzleFlashClone.gameObject, 2f);
+    }
+
+    IEnumerator Reload()
+    {
+        yield return new WaitForSeconds(2f);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
