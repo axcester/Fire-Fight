@@ -4,39 +4,49 @@ using UnityEngine;
 
 public class Platform : MonoBehaviour
 {
+    public float hoverAmplitude = 0.5f;
+    public float hoverFrequency = 2f;
+    public float bounceAmount = 0.2f;
+    public float bounceSpeed = 5f;
 
-    public float speed = 2f;
-    public float height = 0.05f;
-    // Start y position of the gameobject
-    private float startY;
+    private float initialY;
+    private bool playerOnPlatform;
+    private Vector3 bounceTarget;
 
-
-
-
-    // Start is called before the first frame update
     void Start()
     {
-        startY = transform.position.y;
-        
+        initialY = transform.position.y;
+        bounceTarget = transform.position;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        // var pos = transform.position;
-        // var newY = startY + height*Mathf.Sin(Time.time * speed);
-        // transform.position = new Vector3(pos.x, newY, pos.z);
-
-
-
-
+        if (playerOnPlatform)
+        {
+            transform.position = Vector3.Lerp(transform.position, bounceTarget, Time.deltaTime * bounceSpeed);
+        }
+        else
+        {
+            float yOffset = hoverAmplitude * Mathf.Sin(hoverFrequency * Time.time);
+            transform.position = new Vector3(transform.position.x, initialY + yOffset, transform.position.z);
+        }
     }
 
-    // Fized update
-    void FixedUpdate()
+    void OnCollisionEnter(Collision collision)
     {
-        var pos = transform.localPosition;
-        var newY = startY + height*Mathf.Sin(Time.time * speed);
-        transform.localPosition = new Vector3(pos.x, newY, pos.z);
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            playerOnPlatform = true;
+            bounceTarget = new Vector3(transform.position.x, initialY - bounceAmount, transform.position.z);
+        }
+    }
+
+    void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            playerOnPlatform = false;
+            bounceTarget = new Vector3(transform.position.x, initialY, transform.position.z);
+        }
     }
 }
