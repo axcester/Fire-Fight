@@ -11,11 +11,13 @@ public class ThirdPersonShooterController : MonoBehaviour
     [SerializeField] private Camera mainCamera;
     [SerializeField] private CinemachineVirtualCamera aimVirtualCamera;
     [SerializeField] private LayerMask aimColliderLayerMask = new LayerMask();
+    [SerializeField] private LayerMask mask;
     [SerializeField] private Transform debugTransform;
     [SerializeField] private Transform pfBulletProjectile;
     [SerializeField] private Transform pfSplash;
     [SerializeField] private Transform spawnBulletPosition;
     [SerializeField] private Transform pfMuzzleFlash;
+    [SerializeField] private Transform pfTrail;
     [SerializeField] private List<GameObject> aimConstraints = new List<GameObject>();
     [SerializeField] private GameObject headConstraint;
     [SerializeField] private List<float> aimConstraintsWeights = new List<float>();
@@ -64,11 +66,11 @@ public class ThirdPersonShooterController : MonoBehaviour
                 aimVirtualCamera.gameObject.SetActive(true);
                 SetAimingMode();
             }
-            else if (Time.time - mostRecentShot < 0.2f)
+            else if (Time.time - mostRecentShot < 0.5f)
             {
                 SetAimingMode();
             }
-            else if ((Time.time - mostRecentShot) > 0.2f)
+            else if ((Time.time - mostRecentShot) > 0.5f)
             {
                 SetIdleMode();
             }
@@ -165,7 +167,7 @@ public class ThirdPersonShooterController : MonoBehaviour
     {
         yield return new WaitForSeconds(secs);
         Vector3 aimDir = (mouseWorldPosition - spawnBulletPosition.position).normalized;
-        if(Physics.Raycast(spawnBulletPosition.position, aimDir, out RaycastHit hit, 999f))
+        if(Physics.Raycast(spawnBulletPosition.position, aimDir, out RaycastHit hit, 999f, mask))
         {
             if (hit.collider.CompareTag("Enemy"))
             {
@@ -177,6 +179,28 @@ public class ThirdPersonShooterController : MonoBehaviour
         //Instantiate(pfBulletProjectile, spawnBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
         Transform pfMuzzleFlashClone = Instantiate(pfMuzzleFlash, spawnBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up), transform);
         Destroy(pfMuzzleFlashClone.gameObject, 2f);
+        StartCoroutine(SpawnTrail(aimDir));
+
+        yield return new WaitForSeconds(0.1f);
+        pfMuzzleFlashClone.gameObject.GetComponent<Light>().enabled = false;
+    }
+
+    IEnumerator SpawnTrail(Vector3 aimDir)
+    {
+        float time = 0;
+
+        Transform pfTrailClone = Instantiate(pfTrail, spawnBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
+        TrailRenderer trail = pfTrailClone.GetComponent<TrailRenderer>();
+
+        while (time < 1)
+        {
+            pfTrailClone.position = Vector3.Lerp(pfTrailClone.position, pfTrailClone.position + aimDir * 9f, time);
+            time += Time.deltaTime / trail.time;
+
+            yield return null;
+        }
+
+        Destroy(pfTrailClone.gameObject, trail.time);
     }
 
     IEnumerator Reload()
