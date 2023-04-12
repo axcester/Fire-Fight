@@ -19,6 +19,8 @@ public class ThirdPersonShooterController : MonoBehaviour
     [SerializeField] private List<GameObject> aimConstraints = new List<GameObject>();
     [SerializeField] private GameObject headConstraint;
     [SerializeField] private List<float> aimConstraintsWeights = new List<float>();
+    [SerializeField] private LayerMask mask;
+
 
     [SerializeField] private int MaxHealth = 5;
     [SerializeField] private int Health;
@@ -38,7 +40,7 @@ public class ThirdPersonShooterController : MonoBehaviour
         animator = GetComponent<Animator>();
         Health = MaxHealth;
         controller = GetComponent<CharacterController>();
-        animator.SetLayerWeight(4, 0f);
+        animator.SetLayerWeight(3, 0f);
         SetIdleMode();
     }
 
@@ -105,7 +107,7 @@ public class ThirdPersonShooterController : MonoBehaviour
 
         else
         {
-            animator.SetLayerWeight(4, 0f);
+            animator.SetLayerWeight(3, 0f);
             controller.height = 1.8f;
             headConstraint.GetComponent<MultiAimConstraint>().weight = 1f;
             dead = false;
@@ -141,7 +143,6 @@ public class ThirdPersonShooterController : MonoBehaviour
         }
         //headConstraint.GetComponent<MultiAimConstraint>().weight = 0f;
     }
-
     private void SetIdleMode()
     {
         aimVirtualCamera.gameObject.SetActive(false);
@@ -156,6 +157,11 @@ public class ThirdPersonShooterController : MonoBehaviour
         //headConstraint.GetComponent<MultiAimConstraint>().weight = 1f;
     }
 
+    public int GetHealth()
+    {
+        return Health;
+    }
+
     public void Damage(int d)
     {
         Health -= d;
@@ -165,7 +171,7 @@ public class ThirdPersonShooterController : MonoBehaviour
     {
         yield return new WaitForSeconds(secs);
         Vector3 aimDir = (mouseWorldPosition - spawnBulletPosition.position).normalized;
-        if(Physics.Raycast(spawnBulletPosition.position, aimDir, out RaycastHit hit, 999f))
+        if(Physics.Raycast(spawnBulletPosition.position, aimDir, out RaycastHit hit, 999f, mask))
         {
             if (hit.collider.CompareTag("Enemy"))
             {
