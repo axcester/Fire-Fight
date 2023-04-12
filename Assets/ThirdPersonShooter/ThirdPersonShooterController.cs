@@ -11,7 +11,6 @@ public class ThirdPersonShooterController : MonoBehaviour
     [SerializeField] private Camera mainCamera;
     [SerializeField] private CinemachineVirtualCamera aimVirtualCamera;
     [SerializeField] private LayerMask aimColliderLayerMask = new LayerMask();
-    [SerializeField] private LayerMask mask;
     [SerializeField] private Transform debugTransform;
     [SerializeField] private Transform pfBulletProjectile;
     [SerializeField] private Transform pfSplash;
@@ -108,7 +107,7 @@ public class ThirdPersonShooterController : MonoBehaviour
 
         else
         {
-            animator.SetLayerWeight(3, 0f);
+            animator.SetLayerWeight(4, 0f);
             controller.height = 1.8f;
             headConstraint.GetComponent<MultiAimConstraint>().weight = 1f;
             dead = false;
