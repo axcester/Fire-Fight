@@ -30,6 +30,7 @@ public class MainMenu : MonoBehaviour
 
     public void StartGame()
     {
+        print("Start");
         player.GetComponent<PlayerInput>().ActivateInput();
         Menu.SetActive(false);
         Hud.SetActive(true);
