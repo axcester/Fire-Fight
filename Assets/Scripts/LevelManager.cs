@@ -18,11 +18,6 @@ public class LevelManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(numberOfEnemies == 0)
-        {
-            // Check if Player position is inside enPoint
-
-        }
         
         if(enemy1.health == 0)
         {
