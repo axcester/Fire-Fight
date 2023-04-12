@@ -57,11 +57,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71c1514a6bd24e1e882cebbe1904ce04, type: 3}
-  m_Name: Lato-Black SDF
+  m_Name: Lato-Black SDF 1
   m_EditorClassIdentifier: 
-  hashCode: 1310581165
+  hashCode: 1293747516
   material: {fileID: 7304186015023537574}
-  materialHashCode: -1868830611
+  materialHashCode: -554303332
   m_Version: 1.1.0
   m_SourceFontFileGUID: 462a5605cd4f4de48821603c760ce4a6
   m_SourceFontFile_EditorRef: {fileID: 0}
@@ -2817,7 +2817,7 @@ Material:
     - _FaceUVSpeedX: 0
     - _FaceUVSpeedY: 0
     - _GlowInner: 0.79
-    - _GlowOffset: 1
+    - _GlowOffset: 0.1
     - _GlowOuter: 0.05
     - _GlowPower: 0.75
     - _GradientScale: 6
@@ -2831,7 +2831,7 @@ Material:
     - _PerspectiveFilter: 0.875
     - _Reflectivity: 10
     - _ScaleRatioA: 0.8333333
-    - _ScaleRatioB: 0.6448413
+    - _ScaleRatioB: 0.6770833
     - _ScaleRatioC: 0.6770833
     - _ScaleX: 1
     - _ScaleY: 1

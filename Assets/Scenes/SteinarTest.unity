@@ -608,7 +608,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1332642080}
   - component: {fileID: 1332642079}
-  - component: {fileID: 1332642078}
   m_Layer: 0
   m_Name: PostProcessing
   m_TagString: Untagged
@@ -616,19 +615,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!135 &1332642078
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1332642077}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Radius: 3.42
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1332642079
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2863,7 +2849,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 32599
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -2883,14 +2869,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3472528621031474185}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.8300002, y: 1.907, z: -10.76}
+  m_LocalPosition: {x: 2.8300002, y: 1.907, z: -16.279999}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5813350088663330595}
   - {fileID: 5813350087467816655}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &3476898291015952006
 SkinnedMeshRenderer:
@@ -3112,10 +3098,15 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 744506586879754521, guid: 350ef9ea6cb7454499ff003be58be66d,
+        type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 8168507675459960075}
     - target: {fileID: 3722896611517587004, guid: 350ef9ea6cb7454499ff003be58be66d,
         type: 3}
       propertyPath: m_RootOrder
-      value: 11
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3722896611517587004, guid: 350ef9ea6cb7454499ff003be58be66d,
         type: 3}
@@ -5041,7 +5032,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 1
+  m_RenderPostProcessing: 0
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
@@ -5491,6 +5482,9 @@ MonoBehaviour:
   aimColliderLayerMask:
     serializedVersion: 2
     m_Bits: 567
+  mask:
+    serializedVersion: 2
+    m_Bits: 65
   debugTransform: {fileID: 5480965052966388848}
   pfBulletProjectile: {fileID: 7651450137252863645, guid: a91473bff734f7c49ae1a1ceab2cb955,
     type: 3}
@@ -5499,6 +5493,7 @@ MonoBehaviour:
   spawnBulletPosition: {fileID: 5480965053541616403}
   pfMuzzleFlash: {fileID: 7651450137252863645, guid: acd613d67b63e014bbfd163cb681b72a,
     type: 3}
+  pfTrail: {fileID: 0}
   aimConstraints:
   - {fileID: 5480965053545491910}
   - {fileID: 5480965053838507052}
@@ -5506,9 +5501,6 @@ MonoBehaviour:
   aimConstraintsWeights:
   - 0.7
   - 1
-  mask:
-    serializedVersion: 2
-    m_Bits: 65
   MaxHealth: 5
   Health: 0
 --- !u!1 &5489471003418969610
@@ -8400,7 +8392,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8168507675459960075}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.13, y: 0, z: -5.76}
+  m_LocalPosition: {x: 2.13, y: 0, z: -11.28}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

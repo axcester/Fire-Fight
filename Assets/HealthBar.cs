@@ -19,7 +19,11 @@ public class HealthBar : MonoBehaviour
         print(playerHealth);
         for (int i = 0; i < healthpoints.Length; i++)
         {
-            healthpoints[i].gameObject.SetActive(i < playerHealth);
+            if (i >= playerHealth)
+            {
+                healthpoints[i].gameObject.GetComponentInChildren<Pulse>().intencity = 0f;
+                healthpoints[i].gameObject.GetComponentInChildren<Pulse>().speed = 0f;
+            }
         }
     }
 }
