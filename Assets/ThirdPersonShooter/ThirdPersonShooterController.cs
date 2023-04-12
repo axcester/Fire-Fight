@@ -184,10 +184,4 @@ public class ThirdPersonShooterController : MonoBehaviour
         yield return new WaitForSeconds(2f);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        Health--;
-        Destroy(other.gameObject);
-    }
 }
