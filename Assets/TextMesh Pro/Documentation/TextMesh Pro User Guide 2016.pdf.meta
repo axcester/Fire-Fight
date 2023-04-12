@@ -1,5 +1,10 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Scenes/LevelDesign.meta
+guid: 4d40bfdc4bbc93f4eb7d45b5040be5d9
+folderAsset: yes
+========
 guid: 1b8d251f9af63b746bf2f7ffe00ebb9b
+>>>>>>>> 048c398aace452bd4550b38dc1b6e7ef6a56c6f0:Assets/TextMesh Pro/Documentation/TextMesh Pro User Guide 2016.pdf.meta
 DefaultImporter:
   externalObjects: {}
   userData: 
