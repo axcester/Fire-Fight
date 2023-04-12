@@ -179,13 +179,13 @@ public class ThirdPersonShooterController : MonoBehaviour
         //Instantiate(pfBulletProjectile, spawnBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
         Transform pfMuzzleFlashClone = Instantiate(pfMuzzleFlash, spawnBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up), transform);
         Destroy(pfMuzzleFlashClone.gameObject, 2f);
-        StartCoroutine(SpawnTrail(aimDir));
+        StartCoroutine(SpawnTrail(aimDir, hit));
 
         yield return new WaitForSeconds(0.1f);
         pfMuzzleFlashClone.gameObject.GetComponent<Light>().enabled = false;
     }
 
-    IEnumerator SpawnTrail(Vector3 aimDir)
+    IEnumerator SpawnTrail(Vector3 aimDir, RaycastHit hit)
     {
         float time = 0;
 
@@ -194,7 +194,15 @@ public class ThirdPersonShooterController : MonoBehaviour
 
         while (time < 1)
         {
-            pfTrailClone.position = Vector3.Lerp(pfTrailClone.position, pfTrailClone.position + aimDir * 9f, time);
+            if (hit.collider)
+            {
+                pfTrailClone.position = Vector3.Lerp(pfTrailClone.position, hit.point, time);
+            }
+            else
+            {
+                pfTrailClone.position = Vector3.Lerp(pfTrailClone.position, pfTrailClone.position + aimDir * 9f, time);
+            }
+            
             time += Time.deltaTime / trail.time;
 
             yield return null;

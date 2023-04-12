@@ -2620,7 +2620,7 @@ MonoBehaviour:
   spawnBulletPosition: {fileID: 5480965052861192701}
   pfMuzzleFlash: {fileID: 7651450137252863645, guid: acd613d67b63e014bbfd163cb681b72a,
     type: 3}
-  pfTrail: {fileID: 0}
+  pfTrail: {fileID: 245340965913267828, guid: 90f4cd8ab36f11d439cab80194f18dc6, type: 3}
   aimConstraints:
   - {fileID: 5480965052865068840}
   - {fileID: 5480965052639817410}
