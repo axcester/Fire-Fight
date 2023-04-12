@@ -8,6 +8,7 @@ TagManager:
   - Gun
   - Bullet
   - Probs
+  - Enemy
   layers:
   - Default
   - TransparentFX

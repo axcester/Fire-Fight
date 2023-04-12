@@ -20,16 +20,20 @@ public enum EnemyState
 //[RequireComponent(typeof(HealthController))]
 public class EnemyController : MonoBehaviour
 {
-    private Vector3 spawnPoint, destination;
-    private Transform playerTransform;
+    private Vector3 spawnPoint;
+    private Transform playerTransform, target;
     private Animator anim;
     private NavMeshAgent navAgent;
-    private Collider collider;
+    private Collider body;
+    private ColliderChecker attackCollider;
     //private HealthController healthController;
     private EnemyState state = EnemyState.Idle;
     private bool chase = true;
     private float waitTime;
     private float attackTime;
+    private bool lookAtTarget = false;
+    private bool moveForward = true;
+    private Coroutine action;
 
     [SerializeField] private float ranged_attack_range = 10f, min_ranged_attack_range = 5f;
     [SerializeField] private float ranged_attack_ratio = 0.5f;
@@ -39,14 +43,16 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private float attack_range = 0.5f;
     [SerializeField] private float minShootWaitTime = 0.5f, maxShootWaitTime = 2f;
     [SerializeField] private float minAttackTimeout = 5f, maxAttackTimeout = 8f;
+    [SerializeField] private float attackDelay = 0.1f;
     [SerializeField] private int health = 2;
-
+    [SerializeField] private LayerMask mask;
 
     private void Awake()
     {
         anim = GetComponent<Animator>();
         navAgent = GetComponent<NavMeshAgent>();
-        collider = GetComponent<Collider>();
+        body = GetComponent<Collider>();
+        attackCollider = transform.Find("AttackCollider").GetComponent<ColliderChecker>();
     }
 
     void Start()
@@ -55,7 +61,10 @@ public class EnemyController : MonoBehaviour
         spawnPoint = gameObject.transform.position;
         navAgent.destination = spawnPoint;
 
+        target = playerTransform;
+
         navAgent.updatePosition = true;
+        navAgent.updateRotation = false;
     }
 
     void Update()
@@ -64,12 +73,18 @@ public class EnemyController : MonoBehaviour
         float playerAngle = Vector3.SignedAngle(this.transform.forward, playerTransform.transform.position - this.transform.position, Vector3.up);
         bool facingPlayer = Mathf.Abs(playerAngle) < 10f;
 
-        navAgent.destination = playerTransform.position;
+        //navAgent.destination = playerTransform.position;
 
-        if (distToPlayer > chase_distance)
+        if (distToPlayer > chase_distance && state != EnemyState.Dead)
         {
             state = EnemyState.Idle;
-            navAgent.isStopped = true;
+            navAgent.destination = transform.position;
+            lookAtTarget = false;
+        }
+
+        if (attackCollider.IsCollidingWithPlayer && action == null && state != EnemyState.Dead)
+        {
+            action = StartCoroutine(Attack());
         }
 
         //if (distToPlayer < attack_range && facingPlayer)
@@ -78,19 +93,36 @@ public class EnemyController : MonoBehaviour
         //    playerTransform.gameObject.GetComponent<ThirdPersonShooterController>().Damage(1);
         //}
 
+        if (lookAtTarget)
+        {
+            Vector3 lookPos;
+            if (HasLineOfSightTo(target))
+            {
+                lookPos = target.position - transform.position;
+                lookPos.y = 0;
+            }
+            else
+            {
+                lookPos = navAgent.steeringTarget;
+            }
+
+            Quaternion rotation = Quaternion.LookRotation(target.position - transform.position);
+            transform.rotation = Quaternion.Slerp(transform.rotation, rotation, navAgent.angularSpeed * Time.deltaTime);
+        }
+
         switch (state)
         {
             case EnemyState.Idle:
                 if (distToPlayer < agro_distance)
                 {
+                    navAgent.destination = playerTransform.position;
+                    lookAtTarget = true;
+
                     state = EnemyState.Agro;
-                    //waitTime = Time.time + Random.Range(minShootWaitTime, maxShootWaitTime);
-                    anim.SetTrigger("Agro");
-                    StartCoroutine(WaitForAnimation());
+                    action = StartCoroutine(Agro());
                 }
                 break;
             case EnemyState.Agro:
-                navAgent.isStopped = false;
                 attackTime = Time.time + Random.Range(minAttackTimeout, maxAttackTimeout);
 
                 if (Random.value < ranged_attack_ratio)
@@ -107,13 +139,6 @@ public class EnemyController : MonoBehaviour
                 if (Time.time > attackTime)
                 {
                     state = EnemyState.Agro;
-                    break;
-                }
-
-                if (distToPlayer < attack_range && facingPlayer)
-                {
-                    anim.SetTrigger("Attack");
-                    //playerTransform.gameObject.GetComponent<ThirdPersonShooterController>().Damage(1);
                 }
 
                 break;
@@ -124,49 +149,31 @@ public class EnemyController : MonoBehaviour
                     break;
                 }
 
-                if (distToPlayer < ranged_attack_range && distToPlayer > min_ranged_attack_range)
-                {
-                    waitTime = Time.time + Random.Range(minShootWaitTime, maxShootWaitTime);
-                    state = EnemyState.InRange;
-                }
+                print(HasLineOfSightTo(playerTransform));
 
-                break;
-            case EnemyState.InRange:
-                if (Time.time > attackTime)
+                if (HasLineOfSightTo(playerTransform) && distToPlayer < ranged_attack_range)
                 {
-                    state = EnemyState.Agro;
-                    break;
+                    navAgent.destination = transform.position;
+                    if (action == null)
+                    {
+                        action = StartCoroutine(RangedAttack());
+                    }
                 }
+                else navAgent.destination = playerTransform.position;
 
-                navAgent.isStopped = true;
-                LookAtTarget();
-
-                if (distToPlayer > ranged_attack_range)
-                {
-                    state = EnemyState.Agro;
-                    break;
-                }
-
-                if (Time.time > waitTime)
-                {
-                    anim.SetTrigger("Ranged Attack");
-                    var bullet = Instantiate(fireball, bulletSpawnPos.position, bulletSpawnPos.rotation);
-                    Destroy(bullet, 10f);
-                    waitTime = Time.time + Random.Range(minShootWaitTime, maxShootWaitTime);
-                }
                 break;
             case EnemyState.Staggered:
-                if (Time.time > waitTime)
-                {
-                    state = EnemyState.Agro;
-                }
+                StopCoroutine(action);
+                action = StartCoroutine(Staggered());
                 break;
             case EnemyState.Die:
-                anim.SetTrigger("Death");
+                StopCoroutine(action);
+                action = null;
                 navAgent.isStopped = true;
+                anim.SetTrigger("Death");
                 Destroy(gameObject, 30f);
                 state = EnemyState.Dead;
-                collider.enabled = false;
+                body.enabled = false;
                 break;
         }
 
@@ -175,24 +182,88 @@ public class EnemyController : MonoBehaviour
         //if (distToPlayer < 1.5) navAgent.updatePosition = false;
     }
 
-    private void LookAtTarget()
+    private IEnumerator Attack()
     {
-        var targetPosition = navAgent.pathEndPosition;
-        var targetPoint = new Vector3(targetPosition.x, transform.position.y, targetPosition.z);
-        var _direction = (targetPoint - transform.position).normalized;
-        var _lookRotation = Quaternion.LookRotation(_direction);
+        navAgent.isStopped = true;
+        yield return new WaitForSeconds(attackDelay);
+        
+        anim.SetTrigger("Attack");
+        yield return new WaitForSeconds(0.8f);
+        
+        yield return new WaitForSeconds(attackDelay);
 
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, _lookRotation, 360);
+        navAgent.isStopped = false;
+        action = null;
+    }
+
+    private bool HasLineOfSightTo(Transform target)
+    {
+        RaycastHit hit;
+        Vector3 origin = transform.position + Vector3.up * 1.5f;
+        Vector3 targetV = target.position + Vector3.up * 1f;
+
+        Debug.DrawRay(origin, (targetV - origin), Color.green);
+        if (Physics.SphereCast(origin, 0.5f, (targetV - origin).normalized, out hit, ranged_attack_range, mask))
+        {
+            return hit.transform.tag == target.tag;
+        }
+
+        return false;
+    }
+
+    private IEnumerator RangedAttack()
+    {
+        navAgent.isStopped = true;
+        yield return new WaitForSeconds(Random.Range(minShootWaitTime, maxShootWaitTime));
+        lookAtTarget = false;
+
+        anim.SetTrigger("Ranged Attack");
+        yield return new WaitForSeconds(0.8f);
+
+        yield return new WaitForSeconds(attackDelay);
+        navAgent.isStopped = false;
+        lookAtTarget = true;
+
+        action = null;
+    }
+
+    private IEnumerator Staggered()
+    {
+        //yield return new WaitForSeconds(Random.Range(minShootWaitTime, maxShootWaitTime));
+        navAgent.destination = transform.position;
+        lookAtTarget = false;
+
+        anim.SetTrigger("Damage");
+        yield return new WaitForSeconds(0.6f);
+
+        yield return new WaitForSeconds(attackDelay);
+
+        state = EnemyState.Agro;
+        action = null;
     }
 
     private IEnumerator WaitForAnimation()
     {
-        navAgent.isStopped = true;
+        //while (anim.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f)
+        //    yield return null;
 
-        while (anim.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f)
-            yield return null;
+        yield return new WaitForSeconds(0.8f);
 
         navAgent.isStopped = false;
+
+        action = null;
+    }
+
+    private IEnumerator Agro()
+    {
+        navAgent.isStopped = true;
+
+        anim.SetTrigger("Agro");
+        yield return new WaitForSeconds(0.8f);
+
+        navAgent.isStopped = false;
+
+        action = null;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -211,8 +282,18 @@ public class EnemyController : MonoBehaviour
         else
         {
             state = EnemyState.Staggered;
-            waitTime = Time.time + 1.5f;
-            anim.SetTrigger("Damage");
         }
+    }
+
+    public void OnRangedAttack()
+    {
+        var bullet = Instantiate(fireball, bulletSpawnPos.position, bulletSpawnPos.rotation);
+        Destroy(bullet, 5f);
+    }
+
+    public void OnAttack()
+    {
+        if (attackCollider.IsCollidingWithPlayer)
+            playerTransform.gameObject.GetComponent<ThirdPersonShooterController>().Damage(1);
     }
 }
