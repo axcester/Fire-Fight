@@ -17,6 +17,7 @@ public enum EnemyState
 
 [RequireComponent(typeof(NavMeshAgent))]
 [RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(AudioSource))]
 //[RequireComponent(typeof(HealthController))]
 public class EnemyController : MonoBehaviour
 {
@@ -25,6 +26,7 @@ public class EnemyController : MonoBehaviour
     private Animator anim;
     private NavMeshAgent navAgent;
     private Collider body;
+    private AudioSource audio;
     private ColliderChecker attackCollider;
     //private HealthController healthController;
     private EnemyState state = EnemyState.Idle;
@@ -46,9 +48,12 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private float attackDelay = 0.1f;
     [SerializeField] private int health = 2;
     [SerializeField] private LayerMask mask;
+    [SerializeField] private AudioClip attacksound;
+    [SerializeField] private AudioClip hitsound;
 
     private void Awake()
     {
+        audio = GetComponent<AudioSource>();
         anim = GetComponent<Animator>();
         navAgent = GetComponent<NavMeshAgent>();
         body = GetComponent<Collider>();
@@ -149,8 +154,6 @@ public class EnemyController : MonoBehaviour
                     break;
                 }
 
-                print(HasLineOfSightTo(playerTransform));
-
                 if (HasLineOfSightTo(playerTransform) && distToPlayer < ranged_attack_range)
                 {
                     navAgent.destination = transform.position;
@@ -162,24 +165,19 @@ public class EnemyController : MonoBehaviour
                 else navAgent.destination = playerTransform.position;
 
                 break;
-            case EnemyState.Staggered:
-                StopCoroutine(action);
-                action = StartCoroutine(Staggered());
-                break;
             case EnemyState.Die:
-                StopCoroutine(action);
+                if (action != null) StopCoroutine(action);
                 action = null;
-                navAgent.isStopped = true;
+                navAgent.enabled = false;
                 anim.SetTrigger("Death");
                 Destroy(gameObject, 30f);
                 state = EnemyState.Dead;
+                audio.volume = 0.01f;
                 body.enabled = false;
                 break;
         }
 
         anim.SetFloat("Speed", navAgent.velocity.magnitude / navAgent.speed);
-
-        //if (distToPlayer < 1.5) navAgent.updatePosition = false;
     }
 
     private IEnumerator Attack()
@@ -266,14 +264,9 @@ public class EnemyController : MonoBehaviour
         action = null;
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        Damage();
-        Destroy(other.gameObject);
-    }
-
     public void Damage()
     {
+        audio.PlayOneShot(hitsound, 1);
         health--;
         if (health < 1)
         {
@@ -281,7 +274,8 @@ public class EnemyController : MonoBehaviour
         }
         else
         {
-            state = EnemyState.Staggered;
+            if (action != null) StopCoroutine(action);
+            action = StartCoroutine(Staggered());
         }
     }
 
@@ -293,6 +287,7 @@ public class EnemyController : MonoBehaviour
 
     public void OnAttack()
     {
+        audio.PlayOneShot(attacksound, 1);
         if (attackCollider.IsCollidingWithPlayer)
             playerTransform.gameObject.GetComponent<ThirdPersonShooterController>().Damage(1);
     }
