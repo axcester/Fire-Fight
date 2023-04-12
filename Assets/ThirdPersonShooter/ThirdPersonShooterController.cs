@@ -5,6 +5,7 @@ using Cinemachine;
 using StarterAssets;
 using UnityEngine.Animations.Rigging;
 using UnityEngine.SceneManagement;
+using System.Runtime.CompilerServices;
 
 public class ThirdPersonShooterController : MonoBehaviour
 {
@@ -20,7 +21,7 @@ public class ThirdPersonShooterController : MonoBehaviour
     [SerializeField] private List<GameObject> aimConstraints = new List<GameObject>();
     [SerializeField] private GameObject headConstraint;
     [SerializeField] private List<float> aimConstraintsWeights = new List<float>();
-
+    [SerializeField] private LayerMask mask;
 
     [SerializeField] private int MaxHealth = 5;
     [SerializeField] private int Health;

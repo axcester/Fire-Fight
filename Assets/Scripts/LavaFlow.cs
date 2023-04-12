@@ -7,7 +7,7 @@ public class LavaFlow : MonoBehaviour
     
     void Start()
     {
-        GetComponent<Rigidbody>().velocity = new Vector3(0, -10, 0);
+        GetComponent<Rigidbody>().velocity = new Vector3(0, -0.5f, 0);
     }
 
      

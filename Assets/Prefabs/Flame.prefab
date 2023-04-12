@@ -557,8 +557,8 @@ MonoBehaviour:
   bulletSpawnPos: {fileID: 1939573809915369396}
   fireball: {fileID: 2856562956424338726, guid: 1497369e6b165f349a4a325b01409fb5,
     type: 3}
-  agro_distance: 12
-  chase_distance: 15
+  agro_distance: 40
+  chase_distance: 35
   attack_range: 1.8
   minShootWaitTime: 0.5
   maxShootWaitTime: 1
