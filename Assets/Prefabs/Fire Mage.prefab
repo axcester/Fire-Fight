@@ -544,6 +544,8 @@ MonoBehaviour:
   mask:
     serializedVersion: 2
     m_Bits: 257
+  attacksound: {fileID: 8300000, guid: 4820037805310594d9f7cda4df81b2c2, type: 3}
+  hitsound: {fileID: 8300000, guid: a239e71c6c535b642b28e65ac4813b0f, type: 3}
 --- !u!195 &4697789011276299688
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -578,7 +580,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: b7ba2916082d6f74f91b11f771c8500f, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.1
   m_Pitch: 1
   Loop: 1
   Mute: 0
