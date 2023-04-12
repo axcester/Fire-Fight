@@ -21,7 +21,6 @@ public class ThirdPersonShooterController : MonoBehaviour
     [SerializeField] private List<GameObject> aimConstraints = new List<GameObject>();
     [SerializeField] private GameObject headConstraint;
     [SerializeField] private List<float> aimConstraintsWeights = new List<float>();
-    [SerializeField] private LayerMask mask;
 
 
     [SerializeField] private int MaxHealth = 5;
