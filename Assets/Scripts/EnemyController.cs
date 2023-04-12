@@ -46,7 +46,7 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private float minShootWaitTime = 0.5f, maxShootWaitTime = 2f;
     [SerializeField] private float minAttackTimeout = 5f, maxAttackTimeout = 8f;
     [SerializeField] private float attackDelay = 0.1f;
-    [SerializeField] private int health = 2;
+    [SerializeField] public int health = 2;
     [SerializeField] private LayerMask mask;
     [SerializeField] private AudioClip attacksound;
     [SerializeField] private AudioClip hitsound;

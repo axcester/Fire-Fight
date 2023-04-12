@@ -6,8 +6,10 @@ public class LevelManager : MonoBehaviour
 {
     // Start is called before the first frame update
     public int numberOfEnemies;
-    public GameObject enemy1;
-    public GameObject enemy2;
+    public EnemyController enemy1;
+    public EnemyController enemy2;
+    public Transform endPoint;
+    public Transform Player;
     void Start()
     {
         numberOfEnemies = 2;
@@ -18,9 +20,19 @@ public class LevelManager : MonoBehaviour
     {
         if(numberOfEnemies == 0)
         {
-            // Win Game
+            // Check if Player position is inside enPoint
 
         }
+        
+        if(enemy1.health == 0)
+        {
+            numberOfEnemies -= 1;
+        }
+        if(enemy2.health == 0)
+        {
+            numberOfEnemies -= 1;
+        }
+
         
     }
 }
