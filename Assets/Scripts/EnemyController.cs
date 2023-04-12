@@ -149,8 +149,6 @@ public class EnemyController : MonoBehaviour
                     break;
                 }
 
-                print(HasLineOfSightTo(playerTransform));
-
                 if (HasLineOfSightTo(playerTransform) && distToPlayer < ranged_attack_range)
                 {
                     navAgent.destination = transform.position;
@@ -162,14 +160,10 @@ public class EnemyController : MonoBehaviour
                 else navAgent.destination = playerTransform.position;
 
                 break;
-            case EnemyState.Staggered:
-                StopCoroutine(action);
-                action = StartCoroutine(Staggered());
-                break;
             case EnemyState.Die:
-                StopCoroutine(action);
+                if (action != null) StopCoroutine(action);
                 action = null;
-                navAgent.isStopped = true;
+                navAgent.enabled = false;
                 anim.SetTrigger("Death");
                 Destroy(gameObject, 30f);
                 state = EnemyState.Dead;
@@ -266,12 +260,6 @@ public class EnemyController : MonoBehaviour
         action = null;
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        Damage();
-        Destroy(other.gameObject);
-    }
-
     public void Damage()
     {
         health--;
@@ -281,7 +269,8 @@ public class EnemyController : MonoBehaviour
         }
         else
         {
-            state = EnemyState.Staggered;
+            if (action != null) StopCoroutine(action);
+            action = StartCoroutine(Staggered());
         }
     }
 
