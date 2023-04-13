@@ -16,7 +16,6 @@ public class HealthBar : MonoBehaviour
     void FixedUpdate()
     {
         int playerHealth = player.GetHealth();
-        print(playerHealth);
         for (int i = 0; i < healthpoints.Length; i++)
         {
             if (i >= playerHealth)
